@@ -31,33 +31,46 @@ CREATE INDEX idx_images_created_at ON images (created_at DESC);
 
 ## Step 3: Create Storage Bucket
 
-1. In your Supabase dashboard, go to Storage
-2. Create a new bucket called `images`
-3. Make the bucket **public** so images can be accessed without authentication:
-   - Click on the bucket
-   - Go to "Policies"
-   - Click "New Policy"
-   - For SELECT (read) operations, use this policy:
+### Option A: Simple Public Bucket (Recommended for KittyBooru)
+
+1. In your Supabase dashboard, go to **Storage**
+2. Click **New bucket**
+3. Name it `images`
+4. Check the box that says **Public bucket** (this allows anyone to read files)
+5. Click **Create bucket**
+6. After creation, you still need to allow uploads. Go to **Policies** tab
+7. Click **New Policy** on the storage.objects table
+8. Select **For full customization**
+9. Give it a name like "Allow public uploads"
+10. For **Policy Command**, select **INSERT**
+11. In the **USING expression** field, enter:
+```sql
+bucket_id = 'images'
+```
+12. Click **Save policy**
+
+### Option B: Using SQL (Advanced)
+
+If you prefer SQL, go to the **SQL Editor** and run:
 
 ```sql
--- Policy name: Public Access
--- Allowed operation: SELECT
--- Policy definition:
+-- Create the bucket first through the UI, then run these policies:
+
+-- Allow anyone to read files
 CREATE POLICY "Public Access"
 ON storage.objects FOR SELECT
-USING ( bucket_id = 'images' );
-```
+USING (bucket_id = 'images');
 
-4. Also add an INSERT policy for uploading:
-
-```sql
--- Policy name: Public Upload
--- Allowed operation: INSERT
--- Policy definition:
+-- Allow anyone to upload files
 CREATE POLICY "Public Upload"
 ON storage.objects FOR INSERT
-WITH CHECK ( bucket_id = 'images' );
+WITH CHECK (bucket_id = 'images');
 ```
+
+**Note:** If you get a syntax error with the policies, make sure:
+- The bucket `images` already exists
+- You're in the SQL Editor, not the Table Editor
+- Row Level Security (RLS) is enabled on storage.objects (it should be by default)
 
 ## Step 4: Configure Your Application
 

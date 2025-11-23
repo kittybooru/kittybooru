@@ -1,6 +1,12 @@
 const urlParams = new URLSearchParams(window.location.search);
 const imageId = urlParams.get('id');
 
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 async function loadImage() {
   const loadingEl = document.getElementById('loading');
   const messageEl = document.getElementById('message');
@@ -27,7 +33,7 @@ async function loadImage() {
     const tagsEl = document.getElementById('imageTags');
     const tags = image.tags || [];
     tagsEl.innerHTML = tags.map(tag => `
-      <a href="index.html?tag=${encodeURIComponent(tag)}" class="tag">${tag}</a>
+      <a href="index.html?tag=${encodeURIComponent(tag)}" class="tag">${escapeHtml(tag)}</a>
     `).join('');
     
     if (image.description) {

@@ -1,6 +1,12 @@
 let allImages = [];
 let currentFilter = '';
 
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 async function loadGallery() {
   const galleryEl = document.getElementById('gallery');
   const loadingEl = document.getElementById('loading');
@@ -22,6 +28,12 @@ async function loadGallery() {
     displayImages(allImages);
     await loadTagCloud();
     
+    const urlParams = new URLSearchParams(window.location.search);
+    const tagParam = urlParams.get('tag');
+    if (tagParam) {
+      filterByTag(tagParam);
+    }
+    
   } catch (error) {
     loadingEl.style.display = 'none';
     messageEl.innerHTML = `<div class="error">Error loading gallery: ${error.message}</div>`;
@@ -42,11 +54,11 @@ function displayImages(images) {
     const tags = image.tags || [];
     
     return `
-      <div class="gallery-item" onclick="window.location.href='image.html?id=${image.id}'">
-        <img src="${imageUrl}" alt="Image ${image.id}" loading="lazy">
+      <div class="gallery-item" onclick="window.location.href='image.html?id=${escapeHtml(image.id)}'">
+        <img src="${escapeHtml(imageUrl)}" alt="Image ${escapeHtml(image.id)}" loading="lazy">
         <div class="gallery-item-info">
           <div class="gallery-item-tags">
-            ${tags.slice(0, 5).map(tag => `<span class="tag">${tag}</span>`).join('')}
+            ${tags.slice(0, 5).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
             ${tags.length > 5 ? `<span class="tag">+${tags.length - 5}</span>` : ''}
           </div>
         </div>
@@ -67,8 +79,8 @@ async function loadTagCloud() {
     }
     
     tagCloudEl.innerHTML = tagCounts.slice(0, 20).map(({ tag, count }) => `
-      <span class="tag" onclick="filterByTag('${tag}')">
-        ${tag}<span class="tag-count">${count}</span>
+      <span class="tag" onclick="filterByTag('${escapeHtml(tag).replace(/'/g, '&#39;')}')">
+        ${escapeHtml(tag)}<span class="tag-count">${count}</span>
       </span>
     `).join('');
     
