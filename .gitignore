@@ -1,0 +1,9 @@
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Don't commit actual Supabase credentials
+# Users should configure their own
+# js/config.js

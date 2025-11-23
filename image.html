@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image - KittyBooru</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1><a href="index.html">🐱 KittyBooru</a></h1>
+            <nav>
+                <a href="index.html">Gallery</a>
+                <a href="upload.html">Upload</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="loading" class="loading">Loading image...</div>
+        <div id="message"></div>
+        <div id="imageDetail" class="image-detail" style="display: none;">
+            <div class="image-main">
+                <img id="fullImage" src="" alt="Image">
+            </div>
+            <div class="image-info">
+                <h2>Image Details</h2>
+                
+                <div class="info-row">
+                    <div class="info-label">Tags</div>
+                    <div id="imageTags" class="tag-cloud"></div>
+                </div>
+                
+                <div class="info-row" id="descriptionRow" style="display: none;">
+                    <div class="info-label">Description</div>
+                    <div id="imageDescription" class="info-value"></div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">Uploaded</div>
+                    <div id="uploadDate" class="info-value"></div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">Image ID</div>
+                    <div id="imageId" class="info-value"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/image.js"></script>
+</body>
+</html>

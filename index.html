@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KittyBooru - Image Board</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1><a href="index.html">🐱 KittyBooru</a></h1>
+            <nav>
+                <a href="index.html">Gallery</a>
+                <a href="upload.html">Upload</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <div id="message"></div>
+            <div id="loading" class="loading" style="display: none;">Loading images...</div>
+            <div id="gallery" class="gallery"></div>
+        </main>
+
+        <aside class="sidebar">
+            <h2>Search</h2>
+            <input type="text" id="searchInput" class="search-box" placeholder="Search tags...">
+            
+            <h2>Popular Tags</h2>
+            <div id="tagCloud" class="tag-cloud">
+                <div class="loading">Loading tags...</div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/gallery.js"></script>
+</body>
+</html>
