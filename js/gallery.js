@@ -54,7 +54,7 @@ function displayImages(images) {
     const tags = image.tags || [];
     
     return `
-      <div class="gallery-item" onclick="window.location.href='image.html?id=${escapeHtml(image.id)}'">
+      <div class="gallery-item" data-image-id="${escapeHtml(image.id)}">
         <img src="${escapeHtml(imageUrl)}" alt="Image ${escapeHtml(image.id)}" loading="lazy">
         <div class="gallery-item-info">
           <div class="gallery-item-tags">
@@ -79,7 +79,7 @@ async function loadTagCloud() {
     }
     
     tagCloudEl.innerHTML = tagCounts.slice(0, 20).map(({ tag, count }) => `
-      <span class="tag" onclick="filterByTag('${escapeHtml(tag).replace(/'/g, '&#39;')}')">
+      <span class="tag" data-tag="${escapeHtml(tag)}">
         ${escapeHtml(tag)}<span class="tag-count">${count}</span>
       </span>
     `).join('');
@@ -117,5 +117,25 @@ async function searchImages() {
 }
 
 document.getElementById('searchInput').addEventListener('input', searchImages);
+
+document.getElementById('gallery').addEventListener('click', function(e) {
+  const galleryItem = e.target.closest('.gallery-item');
+  if (galleryItem) {
+    const imageId = galleryItem.getAttribute('data-image-id');
+    if (imageId) {
+      window.location.href = `image.html?id=${encodeURIComponent(imageId)}`;
+    }
+  }
+});
+
+document.getElementById('tagCloud').addEventListener('click', function(e) {
+  const tagElement = e.target.closest('.tag');
+  if (tagElement) {
+    const tag = tagElement.getAttribute('data-tag');
+    if (tag) {
+      filterByTag(tag);
+    }
+  }
+});
 
 loadGallery();
