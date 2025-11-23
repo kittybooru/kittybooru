@@ -4,6 +4,12 @@
 .DS_Store
 Thumbs.db
 
-# Don't commit actual Supabase credentials
-# Users should configure their own
-# js/config.js
+# Replit-specific files (not needed for GitHub Pages)
+.replit
+replit.md
+generate-config.sh
+
+# Optional: Uncomment if you don't want to commit documentation
+# SETUP.md
+# DEPLOYMENT.md
+# GITHUB_PAGES_DEPLOY.md
